@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clarity · Download</title>
+<style>
+  :root{--bg:#0b0d10;--card:#14171b;--card2:#1a1e23;--text:#e8eaed;--muted:#8a9099;--accent:#3cc4b4;--accent2:#2b9e92}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+  .glow{position:fixed;inset:0 0 auto 0;height:420px;background:radial-gradient(60% 100% at 20% 0%,rgba(60,196,180,.18),transparent 70%);pointer-events:none}
+  main{position:relative;max-width:880px;margin:0 auto;padding:72px 24px 64px}
+  .logo{font-size:26px;font-weight:300;letter-spacing:10px}
+  .line{width:56px;height:2px;margin-top:14px;background:linear-gradient(90deg,var(--accent),transparent)}
+  .eb{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+  .eba{color:var(--accent)}
+  h1{font-size:36px;font-weight:300;margin:56px 0 8px}
+  .sub{color:var(--muted);font-size:15px;margin:0}
+  .btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+  .btn{display:flex;flex-direction:column;justify-content:center;min-width:240px;padding:16px 22px;border-radius:12px;text-decoration:none;color:#fff;background:var(--accent2);transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(60,196,180,.25)}
+  .btn.alt{background:var(--card2);color:var(--text)}
+  .btn b{font-size:16px;font-weight:600}
+  .btn span{font-size:12px;opacity:.75;margin-top:3px}
+  .card{background:var(--card);border-radius:14px;padding:26px 28px;margin-top:22px}
+  .card h2{font-size:18px;font-weight:500;margin:10px 0 12px}
+  .notes{white-space:pre-line;color:#cfd4da;font-size:15px;line-height:1.6}
+  ol{margin:6px 0 0;padding-left:20px;color:#cfd4da;font-size:15px;line-height:1.7}
+  ol b{color:var(--text);font-weight:500}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+  .grid .card{margin-top:0}
+  footer{margin-top:40px;color:#5d636b;font-size:12px}
+  a.inline{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<main>
+  <div class="logo">CLARITY</div>
+  <div class="line"></div>
+
+  <h1>Clarity herunterladen</h1>
+  <p class="sub" id="ver">Neueste Version</p>
+
+  <div class="btns">
+    <a class="btn" id="win" href="#"><b>Für Windows laden</b><span>Clarity-Setup.exe</span></a>
+    <a class="btn alt" id="mac" href="#"><b>Für Mac laden</b><span>Clarity-mac.zip · Apple Silicon</span></a>
+  </div>
+
+  <div class="card">
+    <div class="eb eba">Was ist neu</div>
+    <div class="notes" id="notes">Die Änderungen stehen bei jeder neuen Version hier.</div>
+  </div>
+
+  <div class="grid" style="margin-top:22px">
+    <div class="card">
+      <div class="eb">Windows</div>
+      <h2>Einrichten</h2>
+      <ol>
+        <li><b>Clarity-Setup.exe</b> öffnen und installieren. ATAS vorher schließen.</li>
+        <li>Clarity starten, deinen <b>Gerätecode</b> an mich schicken.</li>
+        <li>Lizenz eintragen, dann unter Einstellungen → Plattformen deine Plattform verbinden.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="eb">Mac</div>
+      <h2>Einrichten</h2>
+      <ol>
+        <li><b>Clarity-mac.zip</b> öffnen, Clarity in „Programme“ ziehen.</li>
+        <li>Beim ersten Start: Rechtsklick → Öffnen.</li>
+        <li>Gerätecode schicken, Lizenz eintragen, MT5 verbinden.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="eb">Plattformen</div>
+    <h2>ATAS · NinjaTrader · MT5</h2>
+    <ol>
+      <li><b>ATAS:</b> Indikator „ClarityJournal“ auf einen Chart je Konto legen.</li>
+      <li><b>NinjaTrader:</b> nach der Installation im NinjaScript Editor einmal <b>F5</b> drücken.</li>
+      <li><b>MT5:</b> Experte „Clarity“ auf einen Chart ziehen, „Algo-Handel“ einschalten.</li>
+    </ol>
+  </div>
+
+  <footer id="foot">Clarity · Trading Journal</footer>
+</main>
+
+<script>
+  // ── Nur diese zwei Zeilen anpassen ──────────────────────────────
+  const OWNER = "DEIN-GITHUB-NAME";
+  const REPO  = "clarity-download";
+  // ────────────────────────────────────────────────────────────────
+  const base = `https://github.com/${OWNER}/${REPO}/releases/latest/download/`;
+  document.getElementById('win').href = base + 'Clarity-Setup.exe';
+  document.getElementById('mac').href = base + 'Clarity-mac.zip';
+
+  function show(rel){
+    const v = (rel.tag_name || '').replace(/^v/i,'');
+    const d = rel.published_at ? new Date(rel.published_at).toLocaleDateString('de-DE') : '';
+    document.getElementById('ver').textContent = 'Version ' + v + (d ? ' · ' + d : '');
+    if (rel.body) document.getElementById('notes').textContent = rel.body.trim();
+  }
+  const demo = new URLSearchParams(location.search).has('demo');
+  if (demo) {
+    show({tag_name:'v3.5.1', published_at:'2026-11-22T12:00:00Z', body:'Sperre schließt einen Einstieg jetzt sofort statt nach 8 Sekunden.\n„Alles löschen“ hebt die heutige Sperre nicht mehr auf.\nDeutliche Warnung, wenn der Indikator bei gesperrtem Konto wegfällt.'});
+  } else {
+    fetch(`https://api.github.com/repos/${OWNER}/${REPO}/releases/latest`)
+      .then(r => r.ok ? r.json() : null).then(rel => rel && show(rel)).catch(() => {});
+  }
+</script>
+</body>
+</html>
